@@ -2,6 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
+const cons = require("consolidate");
+const dust = require("dustjs-helpers");
+const pg = require("pg");
 const cors = require("cors");
 const corsOptions = require("./config/corsOption");
 const { logger } = require("./middleware/logEvents");
@@ -29,6 +32,13 @@ app.use(cookieParser());
 
 // serve static files
 app.use("/", express.static(path.join(__dirname, "/public")));
+
+// assign dust engine to .dus files
+app.engine("dust", cons.dust);
+
+// set .dust as the default extension
+app.set("view engine", "dust");
+app.set("views", path.join(__dirname, "views"));
 
 // ROUTE
 app.use("/", require("./routes/api"));
