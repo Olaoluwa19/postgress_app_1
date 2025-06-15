@@ -46,7 +46,7 @@ app.use("/", require("./routes/api"));
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("dust")) {
-    res.sendFile(path.join(__dirname, "views", "404.dust"));
+    res.render("404");
   } else if (req.accepts("json")) {
     res.json({ error: "404 Not Found." });
   } else {
